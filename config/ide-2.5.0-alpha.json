@@ -1,0 +1,17 @@
+{
+  "product": "ArkansasIo IDE",
+  "version": "2.5.0-alpha",
+  "legacyBase": "Embarcadero Dev-C++ 6.3",
+  "platform": "windows",
+  "projectFormat": ["dev"],
+  "toolchains": ["gcc", "clang", "msvc"],
+  "buildSystems": ["make", "cmake", "ninja"],
+  "languageServices": ["c", "cpp"],
+  "debuggers": ["gdb", "lldb"],
+  "features": {
+    "plugins": true,
+    "portableMode": true,
+    "lspAdapters": false,
+    "workspaceModel": false
+  }
+}
