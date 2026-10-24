@@ -1,0 +1,47 @@
+{
+  "name": "quadratic-solver",
+  "nodes": [
+    {
+      "id": "in",
+      "op": "input"
+    },
+    {
+      "id": "half",
+      "op": "const",
+      "params": {
+        "value": 0.5
+      }
+    },
+    {
+      "id": "two",
+      "op": "const",
+      "params": {
+        "value": 2
+      }
+    },
+    {
+      "id": "sq",
+      "op": "pow",
+      "inputs": [
+        "in",
+        "two"
+      ]
+    },
+    {
+      "id": "mean",
+      "op": "mul",
+      "inputs": [
+        "sq",
+        "half"
+      ]
+    },
+    {
+      "id": "out",
+      "op": "sqrt",
+      "inputs": [
+        "mean"
+      ]
+    }
+  ],
+  "output": "out"
+}

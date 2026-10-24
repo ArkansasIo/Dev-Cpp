@@ -1,0 +1,23 @@
+// UML example: object-oriented math with classes
+class Number
+    value: Real
+
+    function new(v)
+        value = v
+    end
+
+    function square()
+        return value * value
+    end
+
+    function cube()
+        return value ^ 3
+    end
+end
+
+let x = Number.new(7)
+print(x.square())
+print(x.cube())
+
+let y = Number.new(2.5)
+print(y.square())

@@ -1,0 +1,22 @@
+// UML example: prime check, classes and methods
+function isPrime(n)
+    if n < 2 then
+        return false
+    end
+    if n % 2 == 0 then
+        return n == 2
+    end
+    let d = 3
+    while d * d <= n do
+        if n % d == 0 then
+            return false
+        end
+        d = d + 2
+    end
+    return true
+end
+
+print(prime(97))
+print(isPrime(49))
+print(gcd(54, 24))
+print(factor(144))
