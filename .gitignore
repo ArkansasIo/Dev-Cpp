@@ -61,3 +61,6 @@ uml/target/
 output/
 *.exe
 *.pdb
+
+# DevKit: never commit credentials/config
+DevKit/config.ini
