@@ -31,7 +31,7 @@ string GetErrorMessage() {
 
 	FormatMessage(
 		FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,GetLastError(),MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),&result[0],result.size(),NULL);
+		NULL,GetLastError(),MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),(LPSTR)&result[0],result.size(),NULL);
 
 	// Clear newlines at end of string
 	for(int i = result.length()-1;i >= 0;i--) {

@@ -23,7 +23,7 @@ void FXShader::Get(const char* name) {
 
 void FXShader::Reset() {
 	if(scene) {
-		begin = scene->objects->begin(); // random value
+		begin = scene->objects.begin(); // random value
 	} else {
 		begin = nulldummy;
 	}

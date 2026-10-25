@@ -24,6 +24,6 @@ void Edit::DrawText(LPD3DXFONT font,LPD3DXSPRITE sprite) {
 	
 	// And draw
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
-	font->DrawText(sprite,caption.c_str(),std::min(1024,(int)caption.length()),&textrect,DT_NOCLIP,D3DCOLOR_XRGB(255,255,255));
+	font->DrawText(sprite,caption.c_str(),(std::min)(1024,(int)caption.length()),&textrect,DT_NOCLIP,D3DCOLOR_XRGB(255,255,255));
 	sprite->End();
 }

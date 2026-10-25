@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "FXVariable.h"
+#include "Scene.h"
 
 FXVariable::FXVariable(const char* name) : FXHandle(name) {
 	current = NULL;
@@ -35,8 +36,8 @@ void FXVariable::SetTexture(LPDIRECT3DBASETEXTURE9 texture) {
 	}
 }
 void FXVariable::SetTexture(Texture* texture) {
-	SetTexture(texture->pointer);
+	SetTexture(texture->texture);
 }
 void FXVariable::SetTexture(RenderTarget* target) {
-	SetTexture(target->GetTexture());
+	SetTexture(target->texture);
 }

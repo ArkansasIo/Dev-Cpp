@@ -8,6 +8,7 @@
 class DLLIMPORT Dropdown : public Component {
 	std::vector<std::string> items;
 	public:
+	int abstop;
 		Dropdown(int left,int top,int width,int height);
 		~Dropdown();
 		
@@ -24,6 +25,7 @@ class DLLIMPORT Dropdown : public Component {
 		void Clear();
 		void SetSelection(const char* text);
 		void DrawText(LPD3DXFONT font,LPD3DXSPRITE sprite);
+		void GetRect(RECT* rect);
 };
 
 #endif

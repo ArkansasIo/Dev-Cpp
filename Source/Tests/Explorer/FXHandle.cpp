@@ -2,7 +2,7 @@
 
 FXHandle::FXHandle(const char* name) {
 	handle = NULL;
-	this->name = strdup(name);
+	this->name = _strdup(name);
 }
 
 FXHandle::~FXHandle() {

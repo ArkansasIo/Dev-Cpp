@@ -28,16 +28,16 @@ float float3::Dot(const float3& rvalue) {
 }
 float3 float3::Min(const float3& rvalue) {
 	float3 dummy;
-	dummy.x = std::min(x,rvalue.x);
-	dummy.y = std::min(y,rvalue.x);
-	dummy.z = std::min(z,rvalue.x);
+	dummy.x = (std::min)(x,rvalue.x);
+	dummy.y = (std::min)(y,rvalue.y);
+	dummy.z = (std::min)(z,rvalue.z);
 	return dummy;	
 }
 float3 float3::Max(const float3& rvalue) {
 	float3 dummy;
-	dummy.x = std::max(x,rvalue.x);
-	dummy.y = std::max(y,rvalue.x);
-	dummy.z = std::max(z,rvalue.x);
+	dummy.x = (std::max)(x,rvalue.x);
+	dummy.y = (std::max)(y,rvalue.y);
+	dummy.z = (std::max)(z,rvalue.z);
 	return dummy;	
 }
 float3 float3::SetLength(float value) {

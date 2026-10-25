@@ -39,10 +39,10 @@ class DLLIMPORT Dirlight {
 		float3 GetUp();
 		bool GetEnabled();
 		bool GetCastShadows();
-		void SetDirection(float3 dir);
-		void SetColor(float3 color);
-		void SetEnabled(bool enabled);
-		void SetCastShadows(bool castshadows);
+		void SetDirection(float3 newdir);
+		void SetColor(float3 newcolor);
+		void SetEnabled(bool newenabled);
+		void SetCastShadows(bool newcastshadows);
 		
 		// Create VP projection so that whole scene fits into frustum
 		void GetProjectionPoint();

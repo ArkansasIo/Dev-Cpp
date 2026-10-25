@@ -36,18 +36,20 @@ class DerivedClassName : public ClassName {
 	Correct union
 */
 union UnionName {
+	int PartAVar;
+	int PartBVar;
 	struct PartA {
-		int PartAVar;
+		int PartAVar2;
 	};
 	struct PartB {
-		int PartBVar;
+		int PartBVar2;
 	};
 };
 
 /*
 	Correct typedef
 */
-typedef struct UnfinishedStructName UnfinishedClassName;
+typedef struct UnfinishedStructName UnfinishedStructName2; typedef struct UnfinishedStructName* UnfinishedClassName2;
 
 /*
 	Complicated typedef
@@ -74,20 +76,28 @@ enum EnumName {
 	Struct usage. Hover above statements to check if they are parsed correctly
 */
 int main() {
-	StructName;
-	StructName.VarA;
-	StructName.VarB;
-	StructName.VarC;
-	StructName.Child.ChildVar;
-	ClassName.VarA;
-	ClassName.VarB;
-	ClassName.VarC;
-	ClassName.Child.ChildVar;
-	DerivedClassName.VarA;
-	DerivedClassName.VarB;
-	DerivedClassName.VarC;
-	DerivedClassName.Child.ChildVar;
-	DerivedClassName.VarD;
-	UnionName.PartA;
-	UnionName.PartB;
+	StructName S;
+	ClassName C;
+	DerivedClassName D;
+	UnionName U;
+	UnionName::PartA PA;
+	UnionName::PartB PB;
+	U.PartAVar;
+	U.PartBVar;
+	PA.PartAVar2;
+	PB.PartBVar2;
+	ClassName::Child ChildObj;
+	S.VarA;
+	S.VarB;
+	S.VarC;
+	C.VarA;
+	C.VarB;
+	C.VarC;
+	D.VarA;
+	D.VarB;
+	D.VarC;
+	D.VarD;
+	ChildObj.ChildVar;
+	PA.PartAVar2;
+	PB.PartBVar2;
 }

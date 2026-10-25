@@ -1,0 +1,16 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "Explorer engine tests (clang, MSVC STL)",
+            "intelliSenseMode": "windows-clang-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang++.exe",
+            "includePath": [
+                "${workspaceFolder}/Source/Tests/Explorer/include",
+                "${default}"
+            ]
+        }
+    ]
+}

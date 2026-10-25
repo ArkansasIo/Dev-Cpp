@@ -22,7 +22,7 @@ float PartiallyZeroedArray[6] = {1,2};
 const char* ConstTextA = "This is a bit of text";
 char ConstTextB[] = "This is a bit of text too";
 char TextBuffer[256];
-const char* ConstTextListA = "waw", ConstTextListB = "waw", ConstTextListC = "waw";
+const char* ConstTextListA = "waw"; const char* ConstTextListB = "waw"; const char* ConstTextListC = "waw";
 
 int main() {
 	C;

@@ -1,7 +1,19 @@
 #include "Console.h"
+#include "Scene.h"
 #include "Dirlight.h"
 #include "Renderer.h"
 #include "Options.h"
+
+// Stubs for the missing engine framework (Lights implementation)
+class Lights {
+	public:
+		void BeginUpdate() {}
+		void EndUpdate() {}
+		void AddDirlight(class Dirlight* d) { (void)d; }
+		void DeleteDirlight(class Dirlight* d) { (void)d; }
+};
+
+void Lights_Init(Lights** target) { *target = new Lights(); }
 
 Dirlight::Dirlight(float3 dir,float3 color,bool enabled) {
 	this->dir = dir.Normalize();
@@ -35,31 +47,31 @@ bool Dirlight::GetEnabled() {
 bool Dirlight::GetCastShadows() {
 	return castshadows;
 }
-void Dirlight::SetDirection(float3 dir) {
-	this->dir = dir;
+void Dirlight::SetDirection(float3 newdir) {
+	this->dir = newdir;
 	this->dir.Normalize();
 }
-void Dirlight::SetColor(float3 color) {
+void Dirlight::SetColor(float3 newcolor) {
 	scene->lights->BeginUpdate();
 	
-	this->color = color;
+	this->color = newcolor;
 	
 	scene->lights->EndUpdate();
 }
-void Dirlight::SetEnabled(bool enabled) {
-	if(this->enabled != enabled) {
+void Dirlight::SetEnabled(bool newenabled) {
+	if(this->enabled != newenabled) {
 		scene->lights->BeginUpdate();
 		
-		this->enabled = enabled;
+		this->enabled = newenabled;
 		
 		scene->lights->EndUpdate();
 	}
 }
-void Dirlight::SetCastShadows(bool castshadows) {
-	if(this->castshadows != castshadows) {
+void Dirlight::SetCastShadows(bool newcastshadows) {
+	if(this->castshadows != newcastshadows) {
 		scene->lights->BeginUpdate();
 		
-		this->castshadows = castshadows;
+		this->castshadows = newcastshadows;
 		
 		scene->lights->EndUpdate();
 	}
@@ -83,7 +95,7 @@ void Dirlight::GetProjection() {
 	D3DXMatrixOrthoLH(&matProj,maxx,maxy,-4000.0f,4000.0f);
 	D3DXMatrixMultiply(&matViewProj,&matView,&matProj);
 
-	for(std::list<Object*>::iterator i = scene->objects->begin();i != scene->objects->end();i++) {
+	for(std::list<Object*>::iterator i = scene->objects.begin();i != scene->objects.end();i++) {
 		Object* object = *i;
 		
 		// Don't stretch frustum to fit these
@@ -91,8 +103,8 @@ void Dirlight::GetProjection() {
 			continue;
 		}
 		
-		float3 modeldirvector = object->worldcenter - camera->GetPos();
-		float modeldirlength = std::max(0.0f,modeldirvector.Length() - object->worldr);
+		float3 modeldirvector = object->worldcenter - camera_ptr->GetPos();
+		float modeldirlength = (std::max)(0.0f,modeldirvector.Length() - object->worldr);
 		
 		// Also don't stretch frustum to fit these
 		if(modeldirlength < options->shadowdistance) {
@@ -110,9 +122,9 @@ void Dirlight::GetProjection() {
 			points[2] = screenpos + float3(screenradius,0,0); // right
 			points[3] = screenpos - float3(0,screenradius,0); // bottom
 			
-			for(int i = 0;i < 4;i++) {
-				maxx = std::max(maxx,fabsf(points[i].x));
-				maxy = std::max(maxy,fabsf(points[i].y));
+			for(int point = 0;point < 4;point++) {
+				maxx = (std::max)(maxx,fabsf(points[point].x));
+				maxy = (std::max)(maxy,fabsf(points[point].y));
 //				if(screenpos.z >= 0) {
 //					maxz = std::max(maxz,points[i].z);
 //				} else {

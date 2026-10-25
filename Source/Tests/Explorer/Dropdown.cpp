@@ -20,7 +20,7 @@ void Dropdown::Toggle() {
 		Resize(this->width,itemheight);
 		dropped = false;
 	} else {
-		Resize(this->width,(1 + items.size())*itemheight);
+		Resize(this->width,(int)(1 + items.size())*itemheight);
 		dropped = true;
 	}
 }
@@ -42,7 +42,7 @@ const char* Dropdown::GetSelection() {
 	}
 }
 unsigned int Dropdown::GetItemCount() {
-	return items.size();
+	return (unsigned int)items.size();
 }
 void Dropdown::SetSelection(const char* text) {
 	
@@ -80,4 +80,12 @@ void Dropdown::DrawText(LPD3DXFONT font,LPD3DXSPRITE sprite) {
 		}
 	}
 	sprite->End();
+}
+
+// GetRect implementation (uses Component's left/top/width/height)
+void Dropdown::GetRect(RECT* rect) {
+	rect->left = left;
+	rect->top = top;
+	rect->right = left + width;
+	rect->bottom = top + height;
 }

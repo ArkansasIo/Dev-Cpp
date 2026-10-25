@@ -5,6 +5,19 @@
 
 #include "float3.h"
 
+#ifndef DegToRad
+#define DegToRad(x) ((x) * 0.017453292519943295f)
+#endif
+#ifndef fequals
+#define fequals(a,b) (((a) - (b)) * ((a) - (b)) < 1e-6f)
+#endif
+#ifndef GramSchmidt2
+#define GramSchmidt2(a,b) ((b) - (a) * ((a).Dot(b)))
+#endif
+#ifndef GramSchmidt3
+#define GramSchmidt3(a,b,c) ((c) - (a) * ((a).Dot(c)) - (b) * ((b).Dot(c)))
+#endif
+
 #if BUILDING_DLL
 #define DLLIMPORT __declspec(dllexport)
 #else
