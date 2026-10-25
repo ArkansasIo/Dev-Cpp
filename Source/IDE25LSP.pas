@@ -19,7 +19,7 @@ type
     Severity: Integer;
   end;
 
-  TIDE25LanguageService = class(TInterfacedObject, IIDE25Service)
+  TIDE25LSPService = class(TInterfacedObject, IIDE25Service)
   private
     FState: TIDE25ServiceState;
   protected
@@ -34,27 +34,27 @@ type
 
 implementation
 
-function TIDE25LanguageService.GetName: string;
+function TIDE25LSPService.GetName: string;
 begin
   Result := 'Language Service';
 end;
 
-function TIDE25LanguageService.GetState: TIDE25ServiceState;
+function TIDE25LSPService.GetState: TIDE25ServiceState;
 begin
   Result := FState;
 end;
 
-procedure TIDE25LanguageService.Start;
+procedure TIDE25LSPService.Start;
 begin
   FState := ssRunning;
 end;
 
-procedure TIDE25LanguageService.Stop;
+procedure TIDE25LSPService.Stop;
 begin
   FState := ssStopped;
 end;
 
-function TIDE25LanguageService.SupportsFile(const FileName: string): Boolean;
+function TIDE25LSPService.SupportsFile(const FileName: string): Boolean;
 var
   Ext: string;
 begin
@@ -68,7 +68,7 @@ begin
   Result := Result or (Ext = '.hxx');
 end;
 
-function TIDE25LanguageService.CreatePosition(ALine, ACharacter: Integer): TIDE25Position;
+function TIDE25LSPService.CreatePosition(ALine, ACharacter: Integer): TIDE25Position;
 begin
   Result.Line := ALine;
   Result.Character := ACharacter;

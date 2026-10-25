@@ -3,7 +3,7 @@ unit IDE25Process;
 interface
 
 uses
-  Windows, SysUtils, Classes;
+  Windows, SysUtils, Classes, StrUtils;
 
 type
   TIDE25ProcessResult = record

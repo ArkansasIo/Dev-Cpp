@@ -131,6 +131,21 @@
             <Form>DefaultFiles.res</Form>
         </RcCompile>
         <DCCReference Include="FastMM5.pas"/>
+        <DCCReference Include="IDE25Services.pas"/>
+        <DCCReference Include="IDE25Version.pas"/>
+        <DCCReference Include="IDE25Adapter.pas"/>
+        <DCCReference Include="IDE25Toolchain.pas"/>
+        <DCCReference Include="IDE25Project.pas"/>
+        <DCCReference Include="IDE25Build.pas"/>
+        <DCCReference Include="IDE25Debugger.pas"/>
+        <DCCReference Include="IDE25Plugin.pas"/>
+        <DCCReference Include="IDE25Workspace.pas"/>
+        <DCCReference Include="IDE25Language.pas"/>
+        <DCCReference Include="IDE25Process.pas"/>
+        <DCCReference Include="IDE25BuildService.pas"/>
+        <DCCReference Include="IDE25Settings.pas"/>
+        <DCCReference Include="IDE25LSP.pas"/>
+        <DCCReference Include="IDE25Package.pas"/>
         <DCCReference Include="main.pas">
             <Form>MainForm</Form>
         </DCCReference>
