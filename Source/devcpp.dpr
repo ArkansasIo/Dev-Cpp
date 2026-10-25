@@ -1,20 +1,11 @@
 {
-    This file is part of Embarcadero Dev-C++
-    Copyright (c) 2004 Bloodshed Software
+  This file is part of Embarcadero Dev-C++
+  Copyright (c) 2004 Bloodshed Software
 
-    Embarcadero Dev-C++ is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    Embarcadero Dev-C++ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Dev-C++; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  Embarcadero Dev-C++ is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 }
 
 program devcpp;
@@ -29,6 +20,21 @@ uses
   SHFolder,
   Messages,
   System.IOUtils,
+  IDE25Version in 'IDE25Version.pas',
+  IDE25Services in 'IDE25Services.pas',
+  IDE25Toolchain in 'IDE25Toolchain.pas',
+  IDE25Project in 'IDE25Project.pas',
+  IDE25Build in 'IDE25Build.pas',
+  IDE25Debugger in 'IDE25Debugger.pas',
+  IDE25Plugin in 'IDE25Plugin.pas',
+  IDE25Workspace in 'IDE25Workspace.pas',
+  IDE25Language in 'IDE25Language.pas',
+  IDE25Process in 'IDE25Process.pas',
+  IDE25BuildService in 'IDE25BuildService.pas',
+  IDE25Settings in 'IDE25Settings.pas',
+  IDE25LSP in 'IDE25LSP.pas',
+  IDE25Package in 'IDE25Package.pas',
+  IDE25Adapter in 'IDE25Adapter.pas',
   main in 'main.pas' {MainForm},
   MultiLangSupport in 'MultiLangSupport.pas',
   Version in 'Version.pas',
@@ -97,108 +103,76 @@ uses
 
 var
   AppData, INIFileName, ExeFolder: String;
-//  PrevInstance: THandle;
 begin
-   if (ParamCount > 1) and ParamStr(1).Equals('INTERNAL_DEL') then
-   begin
-//     {$I-}
-     AllocConsole;
-     try
-       WriteLn('Start deleting...');
-       for var i := 2 to ParamCount do
-         if TFile.Exists(ParamStr(i)) then
-         begin
-           Write('Deleting: ' + ParamStr(i));
-           try
-             TFile.Delete(ParamStr(i));
-             WriteLn(' Ok');
-           except
-             on E: exception do
-               WriteLn(' fail: ' + E.Message);
-           end;
-         end
-         else
-           WriteLn('File not found: ' + ParamStr(i));
-     finally
-       WriteLn('Deleting complete...');
-       WriteLn('');
-       FreeConsole;
-     end;
-//     {$I+}
-     Exit;
-   end;
-
-
-  // Configure memory manager
-  {$IFDEF FASTMM_DEBUG_MODE}
-    FastMM_LogToFileEvents := FastMM_LogToFileEvents + [mmetUnexpectedMemoryLeakDetail, mmetUnexpectedMemoryLeakSummary];
-    FastMM_MessageBoxEvents := FastMM_MessageBoxEvents + [mmetUnexpectedMemoryLeakSummary];
-    if FastMM_LoadDebugSupportLibrary then
-    begin
-      FastMM_EnterDebugMode;
-    end else
-    begin
-      MessageBox(0, FastMM_DebugSupportLibraryNotAvailableError, FastMM_DebugSupportLibraryNotAvailableError_Caption, MB_OK or MB_ICONERROR or MB_TASKMODAL or MB_DEFAULT_DESKTOP_ONLY);
-      Halt(217);
+  if (ParamCount > 1) and ParamStr(1).Equals('INTERNAL_DEL') then
+  begin
+    AllocConsole;
+    try
+      WriteLn('Start deleting...');
+      for var i := 2 to ParamCount do
+        if TFile.Exists(ParamStr(i)) then
+        begin
+          Write('Deleting: ' + ParamStr(i));
+          try
+            TFile.Delete(ParamStr(i));
+            WriteLn(' Ok');
+          except
+            on E: exception do
+              WriteLn(' fail: ' + E.Message);
+          end;
+        end
+        else
+          WriteLn('File not found: ' + ParamStr(i));
+    finally
+      WriteLn('Deleting complete...');
+      FreeConsole;
     end;
-  {$ENDIF}
-
-  // Check for previous instances (only allow once instance)
-  // If we are able to find a previous instance, activate that one instead
-  {PrevInstance := GetPreviousInstance;
-  if PrevInstance <> 0 then begin
-    SendToPreviousInstance(PrevInstance, String(GetCommandLineW));
     Exit;
-  end;}
+  end;
+
+{$IFDEF FASTMM_DEBUG_MODE}
+  FastMM_LogToFileEvents := FastMM_LogToFileEvents + [mmetUnexpectedMemoryLeakDetail, mmetUnexpectedMemoryLeakSummary];
+  FastMM_MessageBoxEvents := FastMM_MessageBoxEvents + [mmetUnexpectedMemoryLeakSummary];
+  if FastMM_LoadDebugSupportLibrary then
+    FastMM_EnterDebugMode
+  else
+  begin
+    MessageBox(0, FastMM_DebugSupportLibraryNotAvailableError, FastMM_DebugSupportLibraryNotAvailableError_Caption, MB_OK or MB_ICONERROR or MB_TASKMODAL or MB_DEFAULT_DESKTOP_ONLY);
+    Halt(217);
+  end;
+{$ENDIF}
 
   devData.IsPortable := TPath.GetFileNameWithoutExtension(ParamStr(0)).EndsWith('portable', True)
                         or FindCmdLineSwitch('portable', True)
                         or FindCmdLineSwitch('-portable', True);
 
-  // Read INI filename
   INIFileName := ChangeFileExt(ExtractFileName(Application.ExeName), INI_EXT);
   ExeFolder := ExtractFilePath(Application.ExeName);
 
-  // Create config files directory
-  // Set devData.INIFileName, ConfigMode
-  // Did someone pass the -c command to us?
   if (ParamCount >= 2) and SameStr(ParamStr(1), '-c') then begin
     if not DirectoryExists(ParamStr(2)) then
       CreateDir(ParamStr(2));
-
-    // Store the INI file in the directory given to us
-    if ParamStr(2)[2] <> ':' then // if a relative path is specified...
+    if ParamStr(2)[2] <> ':' then
       devData.INIFileName := ExeFolder + IncludeTrailingBackslash(ParamStr(2)) + INIFileName
     else
       devData.INIFileName := IncludeTrailingBackslash(ParamStr(2)) + INIFileName;
   end else begin
-    // default dir should be %APPDATA%\Embarcadero\Dev-Cpp
     AppData := IncludeTrailingBackslash(TPath.GetHomePath);
-
     const DevCppDir = 'Embarcadero\Dev-Cpp\';
-
-    // Store the INI file in %APPDATA% or if we are not allowed to do so, in the exe directory
     if (not devData.IsPortable) and ((AppData <> '') and (DirectoryExists(AppData + DevCppDir) or ForceDirectories(AppData + DevCppDir))) then
-    begin
-      devData.INIFileName := TPath.Combine(TPath.Combine(AppData,DevCppDir),INIFileName);
-    end
-    else
-    begin
-      // store it in the default portable config folder anyways...
+      devData.INIFileName := TPath.Combine(TPath.Combine(AppData,DevCppDir),INIFileName)
+    else begin
       devData.INIFileName := ExeFolder + 'config\' + INIFileName;
       TDirectory.CreateDirectory(TPath.GetDirectoryName(devData.INIFileName));
     end;
   end;
 
-  // Load settings
   devData.ReadSelf;
   CreateOptions;
 
-  // Create main window
   Application.Initialize;
-  Application.Title := 'Embarcadero Dev C++';
+  Application.Title := IDE25_PRODUCT_NAME + ' ' + IDE25_VERSION;
   Application.CreateForm(TMainForm, MainForm);
   Application.MainFormOnTaskBar := True;
   Application.Run;
 end.
-

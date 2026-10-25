@@ -1,0 +1,34 @@
+name: Source Validation
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Delphi source units
+        shell: pwsh
+        run: ./DevKit/tools/check_source_units.ps1
+
+      - name: Validate alpha manifest
+        shell: pwsh
+        run: |
+          $manifest = Get-Content config/ide-2.5.0-alpha.json -Raw | ConvertFrom-Json
+          if ($manifest.version -ne '2.5.0-alpha') { throw 'Unexpected alpha version.' }
+          if (-not $manifest.toolchains) { throw 'Toolchain list is empty.' }
+          Write-Host "Validated $($manifest.product) $($manifest.version)"
+
+      - name: Check repository metadata
+        shell: pwsh
+        run: |
+          $required = @('README.md','COPYING.txt','Source/devcpp.dpr','Docs/ARCHITECTURE.md','Docs/BUILD.md','Docs/TESTING.md')
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) { throw "Required file missing: $file" }
+          }
